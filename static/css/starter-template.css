@@ -1,0 +1,28 @@
+body 
+{
+  padding-top: 50px;
+}
+.starter-template 
+{
+  padding: 15px 15px;
+  text-align: center;
+}
+
+.btn-top
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.form
+{
+  width: 186px; 
+  clear: both;
+  margin-bottom: 5px;
+}
+
+.table>tbody>tr>td
+{
+  width: 20%;
+  vertical-align: middle;
+}

@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+    {% block body %}
+    <div class = "container">
+        
+        <div class="dropdown">
+            {% if user.username == "admin" %}
+            <button type="button" class="btn btn-primary btn-top pull-right" data-toggle="modal" data-target=".add">
+                Add Mission <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+            {% endif %} 
+
+            <button class="btn btn-default dropdown-toggle btn-top" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Sort By: {{order}}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="/mymissions?order=name">Name</a></li>
+                <li><a href="/mymissions?order=rank">Rank</a></li>
+                <li><a href="/mymissions?order=reward">Reward</a></li>
+                <!-- <li role="separator" class="divider"></li> -->
+            </ul>
+        </div>
+
+        <table class = "table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Rank</th>
+                    <th>Reward</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mission in missions %}
+                <tr>
+                    <td>{{mission.name}}</td>
+                    <td>{{mission.description}}</td>
+                    <td>{{mission.rank}}</td>
+                    <td>{{mission.reward}}</td>
+                    <td style = "width: 10%">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target=".edit" data-id = "{{mission}}">
+                            Edit <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                    <td style = "width: 10%">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".delete" data-id = "{{mission.name}}">
+                            Delete <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id = "add" class="modal fade add pull-right" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add Mission</h4>
+                </div>
+                <div class="modal-body">
+                    <form action = "/mymissions" id="form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name = "name" placeholder="">
+                        </div>
+                        <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" id="description" name = "description" placeholder="">
+                            </div>
+                        <div class="form-group">
+                            <label for="rank">Rank</label>
+                            <input type="text" class="form-control" id="rank" name = "rank" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="reward">Reward</label>
+                            <input type="text" class="form-control" id="reward" name = "reward" placeholder="">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" id = "add-link" href = "">Add Mission</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id = "delete" class="modal fade delete pull-right" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delete-label"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id = "delete-body"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" id = "delete-link" href = "">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id = "edit" class="modal fade edit pull-right" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="edit-label"></h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="">
+                        </div>
+                        <div class="form-group">
+                                <label for="displayName">Display Name</label>
+                                <input type="text" class="form-control" id="displayName" placeholder="">
+                            </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="rank">Rank</label>
+                            <input type="text" class="form-control" id="rank" placeholder="">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-info" id = "delete-link" href = "/mymissions">Save Changes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}
+
+    {% block script %}
+    <script>
+        $ (function ()
+        {
+            $( "#add-link" ).click (function( event ) 
+            {
+                // Stop form from submitting normally
+                event.preventDefault();
+
+                // Get some values from elements on the page:
+                var $form = $("#form" );
+                var name = $form.find( "input[name='name']" ).val();
+                var desc = $form.find( "input[name='description']" ).val();
+                var rank = $form.find( "input[name='rank']" ).val();
+                var reward = $form.find( "input[name='reward']" ).val();
+                var url = $form.attr( "action" );
+
+                // Send the data using post
+                var obj =  {name: name, description: desc, rank: rank, reward: reward} ;
+                console.log(obj);
+                $.post(url, obj, function () {window.location.replace (url)});
+            });
+
+            $('#delete').on('show.bs.modal', function (e) 
+            {
+                var name = $ (e.relatedTarget).data ("id")
+                $ ("#delete-label").html ("Delete - " + name)
+                $ ("#delete-body").html ("Are you sure you want to delete " + name)
+                $ ("#delete-link").attr ("href", "/deleteMission/" + name)
+            })
+
+        })
+    </script>
+    {% endblock %}

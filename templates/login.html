@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+    {% block body %}
+    <div class = "container">
+        <p></p>
+        <form action = "/login" method = "POST">
+            <div class = "form">
+                <label for = "username">Username</label>
+                <input style = "width: 100%; clear: both" id = "username" type = "text" name = "username" value = "{{username}}">
+                {% if errors ["username"] %}
+                <p style = "color: red;">{{errors ["username"]}}</p>
+                {% endif %}
+            </div>
+            <div class = "form">
+                <label for = "password">Password</label>
+                <input style = "width: 100%; clear: both" id = "password" type = "password" name = "password">
+                {% if errors ["password"] %}
+                <p style = "color: red;">{{errors ["password"]}}</p>
+                {% endif %}
+            </div>
+            <p><button class = "btn btn-primary" style = "margin-top: 5px;" type = "submit">Log In</button></p>
+        </form>
+    </div>
+    {% endblock %}

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+    {% block body %}
+    <div class = "container">
+        <div class="dropdown">
+
+            {% if user.username == "admin" %}
+                <button type="button" class="btn btn-primary btn-top pull-right" data-toggle="modal" data-target=".new">
+                    New Post <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+            {% endif %}
+
+            <!-- <button class="btn btn-default dropdown-toggle btn-top" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Sort By: {{order}}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="/mymissions?order=name">Name</a></li>
+                <li><a href="/mymissions?order=rank">Rank</a></li>
+                <li><a href="/mymissions?order=reward">Reward</a></li>
+            </ul> -->
+        </div>
+
+        <!-- <div class = "row">
+            {% for post in posts %}
+            <div class = "col-sm-4 col-md-3">
+                <div style = "height: 200px; overflow: hidden;">
+                    <img class = "img-responsive" src = "/static/upload/{{user.username}}/{{post.file}}">
+                </div>
+            </div>
+            {% endfor %}
+        </div> -->
+
+    </div>
+
+    <div id = "new" class="modal fade new pull-right" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New Post</h4>
+                </div>
+                <div class="modal-body">
+                    <form action = "/posts" id="form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="title">Title:</label>
+                            <input type="text" class="form-control" id="title" name = "title" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Text:</label>
+                            <textarea type="text" rows = "3" class="form-control" id="text" name = "text" placeholder=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="file">File:</label>
+                            <input type = "file" class="form-control" rows = "5" id="file" name = "file" placeholder="">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" id = "new-link" href = "">New Post</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id = "delete" class="modal fade delete pull-right" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delete-label"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id = "delete-body"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" id = "delete-link" href = "">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id = "edit" class="modal fade edit pull-right" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="edit-label"></h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="">
+                        </div>
+                        <div class="form-group">
+                                <label for="displayName">Display Name</label>
+                                <input type="text" class="form-control" id="displayName" placeholder="">
+                            </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="rank">Rank</label>
+                            <input type="text" class="form-control" id="rank" placeholder="">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-info" id = "delete-link" href = "/mymissions">Save Changes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}
+
+    {% block script %}
+    <script>
+        $ (function ()
+        {
+            $( "#new-link" ).click (function( event ) 
+            {
+                // Stop form from submitting normally
+                event.preventDefault();
+                console.log ("WTF")
+                // Get some values from elements on the page:
+                var $form = $("#form" );
+                var title = $form.find( "input[name='title']" ).val();
+                var text = $form.find( "input[name='text']" ).val();
+                var file = $form.find( "input[name='file']" ).val();
+                var url = $form.attr( "action" );
+
+
+                // Send the data using post
+                var obj =  {title: title, text: text, file: file} ;
+                console.log (obj);
+                $.post(url, obj, function () {window.location.replace (url)});
+            });
+
+            $('#delete').on('show.bs.modal', function (e) 
+            {
+                var name = $ (e.relatedTarget).data ("id")
+                $ ("#delete-label").html ("Delete - " + name)
+                $ ("#delete-body").html ("Are you sure you want to delete " + name)
+                $ ("#delete-link").attr ("href", "/deleteMission/" + name)
+            })
+
+        })
+    </script>
+    {% endblock %}

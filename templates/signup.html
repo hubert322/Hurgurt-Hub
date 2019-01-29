@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+    {% block body %}
+    <div class = "container">
+        <p></p>
+        <form action = "/signup" method = "POST">
+            <div class = "form">
+                <label for = "username">Username</label>
+                <input style = "width: 100%; clear: both" id = "username" type = "text" name = "username" value = "{{username}}">
+                {% if errors ["username"] %}
+                <p style = "color: red;">{{errors ["username"]}}</p>
+                {% endif %}
+            </div>
+            <div class = "form">
+                <label for = "displayName">Display Name</label>
+                <input style = "width: 100%; clear: both" id = "displayName" type = "text" name = "displayName" value = "{{displayName}}">
+                {% if errors ["displayName"] %}
+                <p style = "color: red;">{{errors ["displayName"]}}</p>
+                {% endif %}
+            </div>
+            <div class = "form">
+                <label for = "password">Password</label>
+                <input style = "width: 100%; clear: both" id = "password" type = "password" name = "password">
+                {% if errors ["password"] %}
+                <p style = "color: red;">{{errors ["password"]}}</p>
+                {% endif %}
+            </div>
+            <div class = "form">
+                <label for = "confirmPassword">Confirm Password</label>
+                <input style = "width: 100%; clear: both" id = "confirmPassword" type = "password" name = "confirmPassword">
+                {% if errors ["confirmPassword"] %}
+                <p style = "color: red;">{{errors ["confirmPassword"]}}</p>
+                {% endif %}
+            </div>
+            <p><button type = "submit" class = "btn btn-primary" style = "margin-top: 5px;">Join the Hurgurt Gang! 👌</button></p>
+        </form>
+    </div>
+    {% endblock %}
