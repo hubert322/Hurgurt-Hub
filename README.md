@@ -1,4 +1,4 @@
-# hubert322.github.io
+# Hurgurt Hub
 Cool Website made with Flask and Bootstrap
 
 ```console
